@@ -4,7 +4,7 @@ trigger:
       - main
 
 variables:
-  azureServiceConnection: 'My-Azure-Connection'  # name of your service connection in DevOps
+  azureServiceConnection: 'Pradeep-Connection'  # name of your service connection in DevOps
   resourceGroup: 'Demo-RG'
   location: 'eastus'
   storageAccountName: 'demostorage${resourceGroup}'
