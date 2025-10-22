@@ -45,3 +45,4 @@ stages:
             --template-file $(templateFile) \
             --parameters storageAccountName=$(storageAccountName) \
             --only-show-errors
+            --output none
