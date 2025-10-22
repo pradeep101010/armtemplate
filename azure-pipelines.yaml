@@ -1,0 +1,37 @@
+trigger:
+  branches:
+    include:
+      - main
+
+variables:
+  azureServiceConnection: 'My-Azure-Connection'  # name of your service connection in DevOps
+  resourceGroup: 'Demo-RG'
+  location: 'eastus'
+  storageAccountName: 'demostorage${{ uniqueString(resourceGroup) }}'
+  templateFile: 'infra/storage.bicep'
+
+stages:
+- stage: Deploy
+  displayName: 'Deploy Storage Account'
+  jobs:
+  - job: DeployInfra
+    displayName: 'Deploy Infra via Bicep'
+    pool:
+      vmImage: 'ubuntu-latest'
+
+    steps:
+    - checkout: self
+
+    - task: AzureCLI@2
+      displayName: 'Deploy Storage Account using Bicep'
+      inputs:
+        azureSubscription: $(azureServiceConnection)
+        scriptType: bash
+        scriptLocation: inlineScript
+        inlineScript: |
+          echo "Deploying Storage Account to resource group: $(resourceGroup)"
+          az group create --name $(resourceGroup) --location $(location)
+          az deployment group create \
+            --resource-group $(resourceGroup) \
+            --template-file $(templateFile) \
+            --parameters storageAccountName=$(storageAccountName)
