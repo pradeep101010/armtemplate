@@ -7,7 +7,7 @@ variables:
   azureServiceConnection: 'My-Azure-Connection'  # name of your service connection in DevOps
   resourceGroup: 'Demo-RG'
   location: 'eastus'
-  storageAccountName: 'demostorage${{ uniqueString(resourceGroup) }}'
+  storageAccountName: 'demostorage${resourceGroup}'
   templateFile: 'infra/storage.bicep'
 
 stages:
