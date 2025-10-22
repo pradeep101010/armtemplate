@@ -43,5 +43,5 @@ stages:
           az deployment group create \
             --resource-group $(resourceGroup) \
             --template-file $(templateFile) \
-            --parameters storageAccountName=$(storageAccountName)
+            --parameters storageAccountName=$(storageAccountName) \
             --only-show-errors
