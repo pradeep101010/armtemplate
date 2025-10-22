@@ -4,10 +4,9 @@ trigger:
       - main
 
 variables:
-  azureServiceConnection: 'Pradeep-Connection'  # name of your service connection in DevOps
   resourceGroup: 'Demo-RG'
   location: 'eastus'
-  storageAccountName: 'demostorage${resourceGroup}'
+  storageAccountName: 'demostorage$(Build.BuildId)'
   templateFile: 'infra/storage.bicep'
 
 stages:
@@ -22,15 +21,25 @@ stages:
     steps:
     - checkout: self
 
-    - task: AzureCLI@2
+    - task: Bash@3
+      displayName: 'Login to Azure using Managed Identity'
+      inputs:
+        targetType: 'inline'
+        script: |
+          echo "Logging into Azure using Managed Identity..."
+          az login --identity
+          # Optional: set subscription if multiple exist
+          # az account set --subscription <subscription-id>
+
+    - task: Bash@3
       displayName: 'Deploy Storage Account using Bicep'
       inputs:
-        azureSubscription: $(azureServiceConnection)
-        scriptType: bash
-        scriptLocation: inlineScript
-        inlineScript: |
-          echo "Deploying Storage Account to resource group: $(resourceGroup)"
+        targetType: 'inline'
+        script: |
+          echo "Creating resource group if not exists..."
           az group create --name $(resourceGroup) --location $(location)
+
+          echo "Deploying Storage Account using Bicep template..."
           az deployment group create \
             --resource-group $(resourceGroup) \
             --template-file $(templateFile) \
