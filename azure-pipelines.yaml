@@ -44,5 +44,5 @@ stages:
             --resource-group $(resourceGroup) \
             --template-file $(templateFile) \
             --parameters storageAccountName=$(storageAccountName) \
-            --only-show-errors
+            --only-show-errors \
             --output none
