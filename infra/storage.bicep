@@ -12,6 +12,7 @@ param location string = resourceGroup().location
   'Standard_ZRS'
 ])
 param sku string = 'Standard_LRS'
+param doesSupportHttpsTrafficOnly bool = true
 
 resource storageAccount 'Microsoft.Storage/storageAccounts@2022-09-01' = {
   name: storageAccountName
@@ -22,7 +23,7 @@ resource storageAccount 'Microsoft.Storage/storageAccounts@2022-09-01' = {
   kind: 'StorageV2'
   properties: {
     accessTier: 'Hot'
-    supportsHttpsTrafficOnly: true
+    supportsHttpsTrafficOnly: doesSupportHttpsTrafficOnly
   }
 }
 
