@@ -29,7 +29,9 @@ stages:
           echo "Logging into Azure using Managed Identity..."
           az login 
           # Optional: set subscription if multiple exist
-          # az account set --subscription <subscription-id>
+          # az account set --subscription <subscription-id> \
+            --only-show-errors \
+            --output none
 
     - task: Bash@3
       displayName: 'Deploy Storage Account using Bicep'
