@@ -45,6 +45,6 @@ stages:
           az deployment group create \
             --resource-group $(resourceGroup) \
             --template-file $(templateFile) \
-            --parameters storageAccountName=$(storageAccountName) \
+            --parameters @infra/parameters.json \
             --only-show-errors \
             --output none
